@@ -16,7 +16,7 @@ class orcaOutput:
                 #Find and write only the starting coordinates, that is why we need counter_stationary_points==1
                 line_index_1 = counter_lines
                 coordinates = [x for x in lines[line_index_1+5:line_index_1+5+self.n_atoms]]
-                with open('orca_job_'+str(counter_stationary_points)+'.xyz','a') as output:
+                with open('orca_job.'+str(counter_stationary_points).zfill(3)+'.xyz','a') as output:
                     output.write(str(self.n_atoms)+'\n')
                     output.write('orca_job'+'\n')
                     output.writelines(coordinates)
@@ -26,7 +26,7 @@ class orcaOutput:
                 #Find and write subsequent stationary points
                 line_index_1 = counter_lines
                 coordinates = [x for x in lines[line_index_1+6:line_index_1+6+self.n_atoms]]
-                with open('orca_job_'+str(counter_stationary_points)+'.xyz','w') as output:
+                with open('orca_job.'+str(counter_stationary_points).zfill(3)+'.xyz','w') as output:
                     output.write(str(self.n_atoms)+'\n')
                     output.write('orca_job'+'\n')
                     output.writelines(coordinates)
