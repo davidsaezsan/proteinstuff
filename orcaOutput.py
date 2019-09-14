@@ -1,9 +1,9 @@
-class orcaOutput:
+class orcaScanOutput:
     def __init__(self,scan_job_out,n_atoms,n_points):
         """ Creates an object based on the output of Orca Scan Jobs
         and the number of atoms in the system"""
         self.scan_job_out = scan_job_out
-        self.n_atoms = n_atoms
+        self.n_atoms = n_atoms #These options should be automatically retrieved
         self.n_points = n_points
     def scan_get_stationary_coordinates(self):
         """Find xyz coordinates of the different stationary points and write them to a .xyz file"""
