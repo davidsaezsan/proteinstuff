@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[75]:
-
-
 class orcaScanOutput:
     def __init__(self,scan_job_out):
         """ Creates an object based on the output of Orca Scan Jobs
@@ -17,7 +11,8 @@ class orcaScanOutput:
                     splitted_number_of_atoms_line=line.split('....')
                     break
         n_atoms = int(splitted_number_of_atoms_line[1])
-        self.n_atoms = n_atoms 
+        self.n_atoms = n_atoms
+        #Retrieve number of points
         with open(self.scan_job_out,'r') as scan_job_lines:
             lines = scan_job_lines.readlines()
             for line in lines:
@@ -56,7 +51,7 @@ class orcaScanOutput:
             else:
                 counter_lines+=1
         return None
-    
+
     def get_energy_surface(self):
         counter_lines=0
         with open(self.scan_job_out,'r') as scan_job_lines:
@@ -74,29 +69,11 @@ class orcaScanOutput:
                     output.writelines(coordinates)
             counter_lines+=1
 
-
-    
-        
-                
-            
-                
-
-
-# In[76]:
-
-
 if __name__ == "__main__":
-    """ Parses ORCA Scan Output file and writes a file with 
+    """ Parses ORCA Scan Output file and writes a file with
     stationary points and data to plot energies"""
     import sys
-    orca_output = sys.argv[2]
+    orca_output = sys.argv[1]
     a=orcaScanOutput(orca_output)
     a.scan_get_stationary_coordinates()
     a.get_energy_surface()
-
-
-# In[ ]:
-
-
-
-
