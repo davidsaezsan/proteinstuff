@@ -1,9 +1,30 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[75]:
+
+
 class orcaScanOutput:
-    def __init__(self,scan_job_out,n_atoms,n_points):
+    def __init__(self,scan_job_out):
         """ Creates an object based on the output of Orca Scan Jobs
         and the number of atoms in the system"""
         self.scan_job_out = scan_job_out
-        self.n_atoms = n_atoms #These options should be automatically retrieved
+        #Retrieve number of atoms
+        with open(self.scan_job_out,'r') as scan_job_lines:
+            lines = scan_job_lines.readlines()
+            for line in lines:
+                if line.startswith("Number of atoms"):
+                    splitted_number_of_atoms_line=line.split('....')
+                    break
+        n_atoms = int(splitted_number_of_atoms_line[1])
+        self.n_atoms = n_atoms 
+        with open(self.scan_job_out,'r') as scan_job_lines:
+            lines = scan_job_lines.readlines()
+            for line in lines:
+                if line.startswith("There will be"):
+                    splitted_number_points_line=line.split()
+                    break
+        n_points = int(splitted_number_points_line[3])
         self.n_points = n_points
     def scan_get_stationary_coordinates(self):
         """Find xyz coordinates of the different stationary points and write them to a .xyz file"""
@@ -52,3 +73,30 @@ class orcaScanOutput:
                 with open('scf_ene.dat','w') as output:
                     output.writelines(coordinates)
             counter_lines+=1
+
+
+    
+        
+                
+            
+                
+
+
+# In[76]:
+
+
+if __name__ == "__main__":
+    """ Parses ORCA Scan Output file and writes a file with 
+    stationary points and data to plot energies"""
+    import sys
+    orca_output = sys.argv[2]
+    a=orcaScanOutput(orca_output)
+    a.scan_get_stationary_coordinates()
+    a.get_energy_surface()
+
+
+# In[ ]:
+
+
+
+
