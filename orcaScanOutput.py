@@ -1,7 +1,6 @@
 class orcaScanOutput:
     def __init__(self,scan_job_out):
-        """ Creates an object based on the output of Orca Scan Jobs
-        and the number of atoms in the system"""
+        """ Creates an object based on the output of Orca Scan Jobs"""
         self.scan_job_out = scan_job_out
         #Retrieve number of atoms
         with open(self.scan_job_out,'r') as scan_job_lines:
@@ -28,18 +27,8 @@ class orcaScanOutput:
         with open(self.scan_job_out,'r') as scan_job_lines:
             lines = scan_job_lines.readlines()
         for line in lines:
-            if ("GEOMETRY OPTIMIZATION CYCLE   1" in line and counter_stationary_points == 1):
-                #Find and write only the starting coordinates, that is why we need counter_stationary_points==1
-                line_index_1 = counter_lines
-                coordinates = [x for x in lines[line_index_1+5:line_index_1+5+self.n_atoms]]
-                with open('orca_job.'+str(counter_stationary_points).zfill(3)+'.xyz','a') as output:
-                    output.write(str(self.n_atoms)+'\n')
-                    output.write('orca_job'+'\n')
-                    output.writelines(coordinates)
-                counter_lines+=1
-                counter_stationary_points+=1
-            elif "FINAL ENERGY EVALUATION AT THE STATIONARY POINT" in line:
-                #Find and write subsequent stationary points
+            if "FINAL ENERGY EVALUATION AT THE STATIONARY POINT" in line:
+                #Find and write stationary points
                 line_index_1 = counter_lines
                 coordinates = [x for x in lines[line_index_1+6:line_index_1+6+self.n_atoms]]
                 with open('orca_job.'+str(counter_stationary_points).zfill(3)+'.xyz','w') as output:
